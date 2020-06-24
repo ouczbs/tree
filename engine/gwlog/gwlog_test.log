@@ -1,0 +1,34 @@
+debug	this is a debug 1	{"source": "gwlog_test", "ts": "2020-05-12T19:20:11.887+0800"}
+info	this is an info 2	{"source": "gwlog_test", "ts": "2020-05-12T19:20:11.897+0800"}
+warn	this is a warning 3	{"source": "gwlog_test", "ts": "2020-05-12T19:20:11.897+0800"}
+error	goroutine 6 [running]:
+runtime/debug.Stack(0x7587a5, 0x2, 0x10)
+	D:/Go/src/runtime/debug/stack.go:24 +0xa4
+tree/engine/gwlog.TraceError(0x75fe55, 0x18, 0xc000077f60, 0x1, 0x1)
+	D:/ouczbs/ServerGo/tree/engine/gwlog/gwlog.go:85 +0x2d
+tree/engine/gwlog.TestGWLog(0xc0001247e0)
+	D:/ouczbs/ServerGo/tree/engine/gwlog/gwlog_test.go:34 +0x36a
+testing.tRunner(0xc0001247e0, 0x7734d0)
+	D:/Go/src/testing/testing.go:991 +0xe3
+created by testing.(*T).Run
+	D:/Go/src/testing/testing.go:1042 +0x35e
+	{"source": "gwlog_test", "ts": "2020-05-12T19:20:11.897+0800"}
+error	this is a trace error 4	{"source": "gwlog_test", "ts": "2020-05-12T19:20:11.897+0800"}
+panic	this is a panic 4	{"source": "gwlog_test", "ts": "2020-05-12T19:20:11.897+0800"}
+debug	this is a debug 1	{"source": "gwlog_test", "ts": "2020-05-12T19:30:59.072+0800"}
+info	this is an info 2	{"source": "gwlog_test", "ts": "2020-05-12T19:30:59.084+0800"}
+warn	this is a warning 3	{"source": "gwlog_test", "ts": "2020-05-12T19:30:59.084+0800"}
+error	goroutine 6 [running]:
+runtime/debug.Stack(0x7587a5, 0x2, 0x10)
+	D:/Go/src/runtime/debug/stack.go:24 +0xa4
+tree/engine/gwlog.TraceError(0x75fe55, 0x18, 0xc000077f60, 0x1, 0x1)
+	D:/ouczbs/ServerGo/tree/engine/gwlog/gwlog.go:85 +0x2d
+tree/engine/gwlog.TestGWLog(0xc0001247e0)
+	D:/ouczbs/ServerGo/tree/engine/gwlog/gwlog_test.go:34 +0x36a
+testing.tRunner(0xc0001247e0, 0x7734d0)
+	D:/Go/src/testing/testing.go:991 +0xe3
+created by testing.(*T).Run
+	D:/Go/src/testing/testing.go:1042 +0x35e
+	{"source": "gwlog_test", "ts": "2020-05-12T19:30:59.084+0800"}
+error	this is a trace error 4	{"source": "gwlog_test", "ts": "2020-05-12T19:30:59.084+0800"}
+panic	this is a panic 4	{"source": "gwlog_test", "ts": "2020-05-12T19:30:59.084+0800"}

@@ -1,0 +1,21 @@
+syntax = "proto3";
+package pb;
+option go_package = ".;pb";
+enum COMPONENT_TYPE
+{
+    CENTER = 0 ;
+    DISPATCHER = 1 ;
+    LOGIN = 2 ;
+    GATE = 3 ;
+    GAME = 4 ;
+}
+message ADD_ENGINE_COMPONENT
+{
+  string  listen_addr   = 1;
+  COMPONENT_TYPE type = 2;
+}
+message ADD_ENGINE_COMPONENT_ACK
+{
+    uint32 component_id = 1;
+    repeated ADD_ENGINE_COMPONENT component_list = 2;
+}

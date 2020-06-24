@@ -1,0 +1,12 @@
+syntax = "proto3";
+package pb;
+option go_package = ".;pb";
+
+message WrapMessage
+{
+  uint32 cmd   = 1; // 协议编号
+  bytes   content   = 2; // 协议二进制
+  uint32  request   =3; //请求码
+  uint32  response =4; //响应码
+  uint32  code = 5; //返回码
+}
