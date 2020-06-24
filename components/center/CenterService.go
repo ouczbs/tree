@@ -23,32 +23,32 @@ func InscSequence()ComponentId{
 	return sequence
 }
 // DispatcherService implements the dispatcher service
-type centerService struct {
+type UCenterService struct {
 	messageQueue          chan proto.UMessage
 	config                config.CenterConfig
 }
 
-func NewCenterService() *centerService {
-	return &centerService{
+func NewCenterService() *UCenterService {
+	return &UCenterService{
 		config: *(config.Center),
 		messageQueue:          make(chan proto.UMessage, 10000),
 	}
 	//gameList = append(gameList, "ee")
 }
-func (service *centerService)handClientDisconnect(ccp * centerClientProxy){
+func (service *UCenterService)handClientDisconnect(ccp * UCenterClientProxy){
 
 }
-func (service *centerService) Run() {
+func (service *UCenterService) Run() {
 	service.initService()
 	go gwutil.RepeatUntilPanicless(service.MessageLoop)
 	netutil.ServeTCPForever(service.config.ListenAddr, service)
 }
 
 // ServeTCPConnection handles dispatcher client connections to dispatcher
-func (service *centerService) ServeTCPConnection(conn net.Conn) {
+func (service *UCenterService) ServeTCPConnection(conn net.Conn) {
 	service.NewTcpConnection(conn)
 }
-func (service *centerService) NewTcpConnection(conn net.Conn) base.IClientProxy{
+func (service *UCenterService) NewTcpConnection(conn net.Conn) base.IClientProxy{
 	client := newCenterClientProxy(service, conn)
 	client.Serve()
 	return client

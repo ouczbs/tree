@@ -11,15 +11,15 @@ import (
 	"github.com/ouczbs/tree/engine/proto"
 )
 
-type loginClientProxy struct {
+type ULoginClientProxy struct {
 	*proto.PbConnection
-	owner *loginService
+	owner *ULoginService
 	entityId TEntityId
 }
 
-func newLoginClientProxy(owner *loginService, conn net.Conn) *loginClientProxy {
+func newLoginClientProxy(owner *ULoginService, conn net.Conn) *ULoginClientProxy {
 	pbc := proto.NewPbConnection(*netutil.NewConnection(conn))
-	proxy := &loginClientProxy{
+	proxy := &ULoginClientProxy{
 		PbConnection: pbc,
 		owner:        owner,
 	}
@@ -27,7 +27,7 @@ func newLoginClientProxy(owner *loginService, conn net.Conn) *loginClientProxy {
 	return proxy
 }
 
-func (proxy *loginClientProxy) Serve() {
+func (proxy *ULoginClientProxy) Serve() {
 	// Serve the dispatcher client from server / gate
 	defer func() {
 		proxy.Close()

@@ -8,7 +8,7 @@ import (
 	"github.com/ouczbs/tree/engine/proto/pb"
 )
 
-func (service *loginService) MessageLoop() {
+func (service *ULoginService) MessageLoop() {
 	for {
 		select {
 		case msg := <-service.messageQueue:
@@ -29,7 +29,7 @@ func (service *loginService) MessageLoop() {
 		}
 	}
 }
-func (service *loginService) AddEngineComponentAck(_ proto.IRequestProxy,request * proto.URequest){
+func (service *ULoginService) AddEngineComponentAck(_ proto.IRequestProxy,request * proto.URequest){
 	message, ok := request.ProtoMessage.(*pb.ADD_ENGINE_COMPONENT_ACK)
 	if !ok {
 		gwlog.Debugf("AddEngineComponentAck parse data error: %s ", ok)
@@ -40,20 +40,20 @@ func (service *loginService) AddEngineComponentAck(_ proto.IRequestProxy,request
 	dispatcherProxyList = base.MakeComponentProxyList(message.ComponentList , service)
 	gwlog.Debugf("%s", message)
 }
-func (service *loginService) initConfig() {
+func (service *ULoginService) initConfig() {
 	//config := service.config
 	//debug.SetGCPercent(1000)
-	//binutil.SetupGWLog("loginService", config.LogLevel, config.LogFile, config.LogStderr)
+	//binutil.SetupGWLog("UloginService", config.LogLevel, config.LogFile, config.LogStderr)
 	//binutil.SetupHTTPServer(config.HTTPAddr, nil)
 }
-func (service *loginService) initDownHandles() {
+func (service *ULoginService) initDownHandles() {
 	proto.RegisterRequestHandle(proto2.TCmd(pb.CommandList_MT_ADD_ENGINE_COMPONENT_ACK), service.AddEngineComponentAck)
 }
-func (service *loginService) initService() {
+func (service *ULoginService) initService() {
 	service.initConfig()
 	service.initDownHandles()
 }
-func (service *loginService) ConnectToCenter(){
+func (service *ULoginService) ConnectToCenter(){
 	centerProxy = base.MakeCenterProxy("" , service)
 	request := proto.RequestPool.Pop()
 	if request == nil {
@@ -64,13 +64,13 @@ func (service *loginService) ConnectToCenter(){
 	centerProxy.SendPbMessage(message, request)
 	proto.RequestPool.Push(request)
 }
-func (service * loginService) ForwardToGame(proxy proto.IRequestProxy,packet * proto.UPacket){
+func (service * ULoginService) ForwardToGame(proxy proto.IRequestProxy,packet * proto.UPacket){
 	nums := len(dispatcherProxyList)
 	if nums == 0 {
 		gwlog.Debugf("ForwardToGame: dispatcherProxyList's num is zero , please register dispatcher")
 		return
 	}
-	login := proxy.(* loginClientProxy)
+	login := proxy.(* ULoginClientProxy)
 	packet.AppendUint32(login.entityId)
 	id := int(login.entityId) % nums
 	dispatcherProxyList[id].ForwardPacket(packet)

@@ -8,32 +8,32 @@ import (
 	"net"
 )
 // DispatcherService implements the dispatcher service
-type loginService struct {
+type ULoginService struct {
 	messageQueue          chan proto.UMessage
 	config                config.LoginConfig
 }
 
-func NewLoginService() *loginService {
-	return &loginService{
+func NewloginService() *ULoginService {
+	return &ULoginService{
 		config: *(config.Login),
 		messageQueue:          make(chan proto.UMessage, 10000),
 	}
 	//gameList = append(gameList, "ee")
 }
-func (service *loginService)handClientDisconnect(lcp * loginClientProxy){
+func (service *ULoginService)handClientDisconnect(lcp * ULoginClientProxy){
 
 }
-func (service *loginService) Run() {
+func (service *ULoginService) Run() {
 	service.initService()
 	go gwutil.RepeatUntilPanicless(service.MessageLoop)
 	netutil.ServeTCPForever(service.config.ListenAddr, service)
 	service.ConnectToCenter()
 }
-func (service *loginService) ServeTCPConnection(conn net.Conn) {
+func (service *ULoginService) ServeTCPConnection(conn net.Conn) {
 	service.NewTcpConnection(conn)
 }
 
-func (service *loginService) NewTcpConnection(conn net.Conn) IClientProxy{
+func (service *ULoginService) NewTcpConnection(conn net.Conn) IClientProxy{
 	client := newLoginClientProxy(service, conn)
 	client.Serve()
 	return client

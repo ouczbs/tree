@@ -54,7 +54,12 @@ type URequest struct{
 	Cmd 		 TCmd
 	request      TCallId
 }
-
+func (request * URequest) Release(){
+	request.Code = CodeOk
+	request.Cmd = 0
+	request.MessageType = 0
+	request.Next = true
+}
 type URequestPool struct {
 	*UStackPool
 }
@@ -77,13 +82,4 @@ func NewRequestPool(size TSize)* URequestPool{
 	stack := &URequestPool{&UStackPool{size: size}}
 	stack.pool = make([]IPoolObject, size)
 	return stack
-}
-func init()  {
-	//RequestPool
-}
-func (request * URequest) Release(){
-	request.Code = CodeOk
-	request.Cmd = 0
-	request.MessageType = 0
-	request.Next = true
 }

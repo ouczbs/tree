@@ -6,7 +6,7 @@ import (
 	proto2 "github.com/ouczbs/tree/engine/proto"
 	"github.com/ouczbs/tree/engine/proto/pb"
 )
-func (service *centerService) MessageLoop(){
+func (service *UCenterService) MessageLoop(){
 	for {
 		select {
 		case msg := <-service.messageQueue:
@@ -30,7 +30,7 @@ func (service *centerService) MessageLoop(){
 		}
 	}
 }
-func (service *centerService) UtilAddEngineComponentList(proxy proto.IRequestProxy,request * proto.URequest, list map[ComponentId]Component) {
+func (service *UCenterService) UtilAddEngineComponentList(proxy proto.IRequestProxy,request * proto.URequest, list map[ComponentId]Component) {
 	result := &pb.ADD_ENGINE_COMPONENT_ACK{}
 	if list != nil {
 		for id,comp := range list{
@@ -42,7 +42,7 @@ func (service *centerService) UtilAddEngineComponentList(proxy proto.IRequestPro
 	proxy.ResponseMessage(result,request)
 }
 // 中心服务器执行一对一服务 type FRequestHandle = func(IRequestProxy,* RequestMessage)
-func (service *centerService) AddEngineComponent(proxy proto.IRequestProxy,request * proto.URequest){
+func (service *UCenterService) AddEngineComponent(proxy proto.IRequestProxy,request * proto.URequest){
 	message ,ok := request.ProtoMessage.(* pb.ADD_ENGINE_COMPONENT)
 	if !ok {
 		gwlog.Debugf("AddEngineComponent parse data error: %s "  , ok)
@@ -67,16 +67,16 @@ func (service *centerService) AddEngineComponent(proxy proto.IRequestProxy,reque
 	}
 	gwlog.Debugf("%s" , message)
 }
-func (service *centerService) initConfig(){
+func (service *UCenterService) initConfig(){
 	//config := service.config
 	//debug.SetGCPercent(1000)
 	//binutil.SetupGWLog("CenterService", config.LogLevel, config.LogFile, config.LogStderr)
 	//binutil.SetupHTTPServer(config.HTTPAddr, nil)
 }
-func (service *centerService) initDownHandles(){
+func (service *UCenterService) initDownHandles(){
 	proto.RegisterRequestHandle(proto2.TCmd(pb.CommandList_MT_ADD_ENGINE_COMPONENT), service.AddEngineComponent)
 }
-func (service *centerService) initService(){
+func (service *UCenterService) initService(){
 	service.initConfig()
 	service.initDownHandles()
 }

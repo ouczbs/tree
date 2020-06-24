@@ -10,14 +10,14 @@ import (
 	"net"
 )
 
-type centerClientProxy struct {
+type UCenterClientProxy struct {
 	*proto.PbConnection
-	owner  *centerService
+	owner  *UCenterService
 }
 
-func newCenterClientProxy(owner *centerService, conn net.Conn) *centerClientProxy {
+func newCenterClientProxy(owner *UCenterService, conn net.Conn) *UCenterClientProxy {
 	pbc := proto.NewPbConnection(* netutil.NewConnection(conn))
-	ccp := &centerClientProxy{
+	ccp := &UCenterClientProxy{
 		PbConnection: pbc,
 		owner:             owner,
 	}
@@ -25,7 +25,7 @@ func newCenterClientProxy(owner *centerService, conn net.Conn) *centerClientProx
 	return ccp
 }
 
-func (ccp *centerClientProxy) Serve() {
+func (ccp *UCenterClientProxy) Serve() {
 	// Serve the dispatcher client from server / gate
 	defer func() {
 		ccp.Close()
